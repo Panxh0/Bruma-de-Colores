@@ -1,16 +1,16 @@
 import logo from './logo.svg';
 import './App.css';
+import Nav from './comp/nav';
+import ProductPage from './comp/ProductPage';
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        
-        <h1>Hello, World!</h1>
-      </header>
+        <Nav />
+        <ProductPage />
     </div>
   );
 }
 
-export default App;
+export default App
