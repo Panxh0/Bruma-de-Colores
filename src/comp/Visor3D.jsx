@@ -7,14 +7,14 @@ const Model = ({url}) => {
 
     const {scene} = useGLTF(url); //ruta del modelo 3D
 
-    return <primitive object={scene} scale={20} position={[0, 0, 0]} />;
+    return <primitive object={scene} scale={20} position={[0, -500, 0]} />;
 
 };
 
 const Visor3D = ({modelPath}) => {
     return (
         <div style={{height: '100%', width: '100%'}}>
-            <Canvas camera = {{position: [5,5,5], fov: 100}}>
+            <Canvas camera = {{position: [0,-800,5], fov: 100}}>
 
                 <OrbitControls 
                 enableZoom={true}

@@ -1,5 +1,9 @@
 import React from 'react';
 import './nav.css';
+import { FaSearch } from "react-icons/fa";
+import { MdOutlineMenu } from "react-icons/md";
+import './login.jsx';
+import './register.jsx';
 
 
 const Nav = () => {
@@ -17,7 +21,7 @@ const Nav = () => {
       </div>
 
       <button className = 'menu-toggle'onClick = {toggleMenu}>
-        ☰ 
+        <MdOutlineMenu />
       </button>
 
       <div className={`navbar-links ${isMenuOpen ? 'mobile-menu-open' : ''}`}>
@@ -29,11 +33,10 @@ const Nav = () => {
 
       <div className='navbar-actions'>
         <button className = 'icon-buttons'>
-          <span role = 'img' aria-label = 'Buscar'>🔍</span>
+          <span role = 'img' aria-label = 'Buscar'><FaSearch /></span>
         </button>
-
-        <button className='login-button'>Inicio de Sesion</button>
-        <button className='register-button'>Crear Cuenta</button>
+        <button className='login-button' href = './login.jsx'>Inicio de Sesion</button>
+        <button className='register-button' href = './register.jsx'>Crear Cuenta</button>
       </div>
     </nav>
   );

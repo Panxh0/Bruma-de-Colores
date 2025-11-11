@@ -19,8 +19,12 @@ const PaginaProducto = () => {
     const stockStatus = Product.stock > 0 ? 'Disponible' : 'Agotado';
     const stockClass = Product.stock > 0 ? 'stock-available' : 'stock-unavailable';
 
+
+
     return (
+        
         <div>
+            <Navbar/>
 
             <div className='product-page-container'>
 
