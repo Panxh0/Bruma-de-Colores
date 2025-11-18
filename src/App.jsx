@@ -4,9 +4,8 @@ import Nav from './comp/nav';
 import ProductPage from './comp/ProductPage';
 import Login from './comp/login';
 import Register from './comp/register';
+import HomePage from './comp/homePage';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-
-
 
 const App = () => {
   return (
@@ -19,7 +18,7 @@ const App = () => {
         <Route path='/login' element={ <Login /> } />
         <Route path='/product' element={ <ProductPage /> } />
         <Route path='/register' element={ <Register /> } />
-
+        <Route path= '/homePage' element = {<HomePage />}/>
         
 
       </Routes>

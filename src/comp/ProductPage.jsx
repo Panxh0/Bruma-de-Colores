@@ -7,7 +7,7 @@ const Product = {
     id: 1,
     name : 'Juguete de Batman Lego',
     description: 'Figura de Batman',
-    price: 29999,
+    price: 29990,
     modelo: "Lego Batman 2024",
     stock : 15,
     Vendedor: "Lego",

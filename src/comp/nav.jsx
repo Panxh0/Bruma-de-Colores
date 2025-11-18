@@ -1,42 +1,38 @@
-import React from 'react';
 import './nav.css';
-import { FaSearch } from "react-icons/fa";
-import { MdOutlineMenu } from "react-icons/md";
 import './login.jsx';
 import './register.jsx';
-
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import { useEffect } from 'react';
 
 const Nav = () => {
 
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  }
+  useEffect(() => {
+    import("bootstrap/dist/js/bootstrap");
+  }, []);
 
   return (
-    <nav className="nav">
-      <div className = 'navbar-logo'>
-        <img className="logo-image" src="/images/logo.jpg" />
-      </div>
-
-      <button className = 'menu-toggle'onClick = {toggleMenu}>
-        <MdOutlineMenu />
-      </button>
-
-      <div className={`navbar-links ${isMenuOpen ? 'mobile-menu-open' : ''}`}>
-        <button className='nav-button'>Inicio</button>
-        <button className='nav-button'>Categorias</button>
-        <button className='nav-button'>Nuevos Juguetes</button>
-        <button className='nav-button'>Lista de Deseados</button>
-      </div>
-
-      <div className='navbar-actions'>
-        <button className = 'icon-buttons'>
-          <span role = 'img' aria-label = 'Buscar'><FaSearch /></span>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
         </button>
-        <button className='login-button' href = './login.jsx'>Inicio de Sesion</button>
-        <button className='register-button' href = './register.jsx'>Crear Cuenta</button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <img className= "logo" src="images/logo.jpg"  />
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+        
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        </div>
       </div>
     </nav>
   );

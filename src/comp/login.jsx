@@ -1,13 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './login.css';
 import { useNavigate } from 'react-router-dom';
-
+import { auth } from '../firebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 
 const Login = () => {
 
+    const [formData, setFormData] = useState({
+        
+    })
     const navigate = useNavigate();
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try{
+            const userCredential = await signInWithEmailAndPassword(
+                auth,
+                formData.email,
+                formData.password
+            );
+
+            console.log("usuario ha iniciado sesion: ", userCredential.user);
+            localStorage.setItem('isAuthenticated', 'true');
+            navigate('/home', {replace:true})
+        } catch (error) {
+            console.error("Error en el login", error.code, error.message);
+            alert('Las credenciales son incorrectas 😔. Verifica tu email y contraseña.')
+        }
+    }
+    
     return (
         <div className = 'login-container'>
             <div className= 'login-box'>
@@ -15,7 +38,7 @@ const Login = () => {
                     <img src = "/images/logo.jpg" className = "logo-image"/>
                 </div>
                 
-                <h1>Iniciar Sesión 🥸</h1>
+                <h1>Iniciar Sesión ✨</h1>
 
                 <form className='login-form'>
                     <div className = 'input-group'>

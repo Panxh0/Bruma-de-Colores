@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './login.css';
-import {Link, useNavigate} from 'react-router-dom';
-
+import { auth } from '../firebaseConfig';
+import  { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate, Link } from 'react-router-dom';
 
 
 const Register = () => {
@@ -19,23 +20,28 @@ const Register = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value});
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
+        try {
+        //llamada a firebase
+        const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            formData.email,
+            formData.password
+        );
+
+        console.log('Usuario Registrado con exito:', userCredential.user);
+        alert('¡Felicidades, creaste tu cuenta con exito! 🥳, Ahora, inicia sesión.');
+        navigate('/login');
+        } catch (error) {
+            console.log("Error en el registro:", error);
+            alert(`Error al registrar la cuenta: ${error.message}` );
+        }
 
         if (formData.password !== formData.confirmPassword) {
             alert('Las  contraseñas no coinciden.');
             return;
-        }
-
-        console.log('Datos de registro:', formData);
-        const registrationSuccess = true;
-
-        if (registrationSuccess){
-            alert('¡Felicidades, creaste tu cuenta con exito! 🥳, Ahora, inicia sesión.');
-            navigate('/login');
-        }else{
-            alert('Error al registrar la cuenta. 😔')
         }
     };
 
