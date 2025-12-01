@@ -19,6 +19,7 @@
 /* ------------------------------------------------------------------ */
 
 .carousel-container {
+    margin-top: 10px;
     overflow: hidden; /* Oculta los items que están fuera de la vista */
     height: 400px;
     background-color: #e6f7ff; /* Fondo muy claro para resaltar */

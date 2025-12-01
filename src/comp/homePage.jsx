@@ -18,7 +18,7 @@ const HomePage = () => {
     const [juguetes, setJuguetes] = useState([]);
     const [loading, setLoading] = useState([]);
     const navigate = useNavigate();
-    //weas que no se que son xd 
+    
 
     useEffect (() => {
         const juguetesRef = ref (rtdb, 'juguetes')
@@ -42,9 +42,7 @@ const HomePage = () => {
         navigate(`/product/${id}`);
     };
 
-    if (loading) {
-        return <div>Se esta cargando la página principal... 🦦</div>
-    }
+   
 
     return (
         <div className="home-page">
