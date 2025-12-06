@@ -11,10 +11,13 @@ const Product = {
     modelo: "Lego Batman 2024",
     stock : 15,
     Vendedor: "Lego",
-    model3DPath: '/models/lego_batman.glb'
+    model3DPath: '/models/lego_batman.glb',
+    model3DUrl: ''
 };
 
-const PaginaProducto = () => {
+const PaginaProducto = ({productData}) => {
+
+    //const modelUrlFromFirebase = productData.model3DUrl;
 
     const stockStatus = Product.stock > 0 ? 'Disponible' : 'Agotado';
     const stockClass = Product.stock > 0 ? 'stock-available' : 'stock-unavailable';

@@ -1,4 +1,4 @@
-import React from "react"; 
+import React, { useRef } from "react"; 
 import { useState, useEffect } from "react";
 import { data, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -15,10 +15,16 @@ const promoToys = [
 ]
 
 const HomePage = () => {
+    const ITEMS_PER_PAGE = 10;
+
     const [juguetes, setJuguetes] = useState([]);
     const [loading, setLoading] = useState([]);
-    const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState (1);
     
+    const navigate = useNavigate();
+    const carouselRef = useRef(null);
+    const [width, setWidth] = useState(0);
+
 
     useEffect (() => {
         const juguetesRef = ref (rtdb, 'juguetes')
@@ -38,22 +44,46 @@ const HomePage = () => {
         });
     }, []);
 
+    useEffect(() =>{
+        if (carouselRef.current) {
+            setWidth(carouselRef.current.scrollWidth - carouselRef.current.offsetWidth);
+        }
+        }, [loading, juguetes]);
+
     const handleProductClick = (id) => {
         navigate(`/product/${id}`);
     };
 
-   
+    //paginacion 
+    const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+    const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+
+    //obtencion solo de los juguetes correspondientes a la paginacion
+    const currentJuguetes = juguetes.slice(indexOfFirstItem, indexOfLastItem);
+
+    //calculo del numero total de paginas
+    const totalPages = Math.ceil(juguetes.length / ITEMS_PER_PAGE);
+
+    //funcion para el cambio de pagina
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    //array del numero de paginas
+    const pageNumbers = [];
+    for(let i = 1; i <= totalPages; i++){
+        pageNumbers.push(i);
+    }
+
 
     return (
         <div className="home-page">
             <Nav />
             
-            {/* Sección del Carrusel Promocional (Elegante y Atractivo) */}
-            <motion.div className="carousel-container">
+            {/* Sección del Carrusel Promocional */}
+            <motion.div ref={carouselRef} className="carousel-container">
                 <motion.div 
                     className="carousel-track"
                     drag="x" // Permite arrastrar horizontalmente
-                    dragConstraints={{ right: 0, left: -1000 }} // Límites de arrastre (ajustar según el número de items)
+                    dragConstraints={{ right: 0, left: -width }} //limite de arrastre del carrusel
                 >
                     {promoToys.map((promo, index) => (
                         <div 
@@ -94,8 +124,8 @@ const HomePage = () => {
             <div className="product-list-section">
                 <h2>Explora Nuestros Juguetes</h2>
                 <div className="product-grid">
-                    {juguetes.length > 0 ? (
-                        juguetes.map(juguete => (
+                    {currentJuguetes.length > 0 ? (
+                        currentJuguetes.map(juguete => (
                             <ProductCard 
                                 key={juguete.id} 
                                 juguete={juguete} 
@@ -106,6 +136,21 @@ const HomePage = () => {
                         <p>No hay juguetes disponibles en este momento.</p>
                     )}
                 </div>
+
+                {/* paginacion */}
+                {totalPages > 1 && (
+                    <div className="pagination">
+                        {pageNumbers.map(number => (
+                            <button
+                                key = {number}
+                                onClick = {() => paginate(number)}
+                                className = {currentPage == number ? 'page-button active' : 'page-button'}
+                            >
+                                {number}
+                            </button>
+                        ))} 
+                    </div>
+                )}
             </div>
         </div>
     );
