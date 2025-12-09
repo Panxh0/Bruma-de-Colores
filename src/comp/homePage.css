@@ -1,3 +1,7 @@
+.home-page {
+    min-height: 100vh;
+    background-color: #f7f9fc; /* Fondo muy claro y suave */
+}
 
 .product-list-section {
     max-width: 1200px;
@@ -5,6 +9,16 @@
     padding: 0 20px;
     text-align: center;
 }
+
+h2 {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #3498db;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
 
 .product-grid {
     display: grid;
@@ -14,39 +28,45 @@
     margin-top: 30px;
 }
 
-/* ------------------------------------------------------------------ */
-/* ESTILOS DEL CARRUSEL (ELEGANCIA CON FRAMER-MOTION) */
-/* ------------------------------------------------------------------ */
 
 .carousel-container {
-    margin-top: 10px;
     overflow: hidden; /* Oculta los items que están fuera de la vista */
     height: 400px;
     background-color: #e6f7ff; /* Fondo muy claro para resaltar */
     margin-bottom: 50px;
     width: 100%;
+    cursor: grab; /* Indica que es arrastrable */
+}
+
+/* Evita que el cursor cambie al arrastrar */
+.carousel-container:active {
+    cursor: grabbing;
 }
 
 .carousel-track {
     display: flex;
-    /* Ajusta el ancho para forzar el scroll horizontal/arrastre */
+    /* Necesita un ancho mayor al contenedor para que el arrastre funcione */
     width: 300%; 
     height: 100%;
 }
 
 .carousel-item {
-    min-width: 33.33%; /* Cada item ocupa un tercio de la pista total */
+    min-width: 33.33%; /* Cada item ocupa un tercio del ancho total */
     height: 100%;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    /* Sombra interna para mejorar el contraste del texto */
+    box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.3); 
 }
 
 .promo-text {
-    background-color: rgba(0, 0, 0, 0.4);
+    /* Fondo semi-transparente para el texto */
+    background-color: rgba(0, 0, 0, 0.65);
     color: white;
     padding: 20px 40px;
     border-radius: 10px;
@@ -56,28 +76,26 @@
 .promo-text h1 {
     font-size: 2.5rem;
     margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .promo-button {
     background-color: #ff5722; /* Color naranja vibrante para acción */
     color: white;
-    padding: 10px 20px;
+    padding: 10px 25px;
     border: none;
-    border-radius: 5px;
+    border-radius: 25px; /* Botón redondeado */
     cursor: pointer;
     font-weight: bold;
     margin-top: 15px;
     transition: background-color 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .promo-button:hover {
     background-color: #e64a19;
 }
 
-
-/* ------------------------------------------------------------------ */
-/* ESTILOS DE LA TARJETA DE PRODUCTO */
-/* ------------------------------------------------------------------ */
 
 .product-card {
     background: #fff;
@@ -88,6 +106,10 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+}
+
+.product-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 .card-image-container {
@@ -109,6 +131,9 @@
 .card-info {
     padding: 15px;
     text-align: left;
+    flex-grow: 1; /* Asegura que el contenido se estire */
+    display: flex;
+    flex-direction: column;
 }
 
 .card-title {
@@ -119,8 +144,9 @@
 
 .card-price {
     font-size: 1.1em;
-    color: #4CAF50; /* Color de precio verde */
+    color: #4CAF50; 
     font-weight: bold;
+    margin-top: auto; /* Empuja el precio y el botón hacia abajo */
 }
 
 .card-button {
@@ -132,4 +158,40 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.card-button:hover {
+    background-color: #2980b9;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    gap: 10px;
+}
+
+.page-button {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: 500;
+}
+
+.page-button:hover:not(.active) {
+    background-color: #e0e0e0;
+}
+
+.page-button.active {
+    background-color: #3498db; 
+    color: white;
+    border-color: #3498db;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }

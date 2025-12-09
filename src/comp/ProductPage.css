@@ -31,7 +31,7 @@
     font-weight: bold;
 }
 
-.add-to-cart {
+.btn-add-cart {
     padding: 10px 20px;
     background-color: #3498db;
     color: white;
@@ -44,7 +44,7 @@
     }
 }
 
-.buy-now {
+.btn-wishlist {
     padding: 10px 20px;
     background-color: #e67e22;
     color: white;

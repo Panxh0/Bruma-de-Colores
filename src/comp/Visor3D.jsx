@@ -1,38 +1,45 @@
 import React, { Suspense } from 'react';
 import {Canvas} from '@react-three/fiber';
-import {OrbitControls, useGLTF} from '@react-three/drei';
+import {OrbitControls, useGLTF, Center, Bounds} from '@react-three/drei';
+import Navbar from './nav';
 
 const Model = ({url}) => {
+    <Navbar />
 
 
     const {scene} = useGLTF(url); //ruta del modelo 3D
 
-    return <primitive object={scene} scale={20} position={[0, -500, 0]} />;
+    return <primitive object={scene} scale={1} position={[0.2, 0, 0]} />;
 };
 
 const Visor3D = ({modelPath}) => {
     return (
+
         <div style={{height: '100%', width: '100%'}}>
-            <Canvas camera = {{position: [0,-800,5], fov: 100}}>
+
+            <Canvas camera={{ position: [2, 2, 2], fov: 60 }} 
+            style={{ background: '#f8f8f8' }} >
 
                 
 
-                <OrbitControls 
-                enableZoom={true}
-                enablePen = {false} //deshabilita el movimiento lateral para enfocar el giro.
-                maxPolarAngle={Math.PI / 2} //limita la rotacion vertical.
-                minPolarAngle={Math.PI / 4} //limita la rotacion vertical.
-                />
+            <OrbitControls 
+            enableZoom={true} 
+            enablePan={false} 
+            enableDamping={true} 
+            dampingFactor={0.05}
+            maxPolarAngle={Math.PI / 2} 
+            />
 
-                <ambientLight intensity={0.5} />
-                <spotLight position={[10, 10, 10]} angle={10} penumbra={5} intensity={5} />
-                <pointLight position={[-10, -10, -10]} intensity={10} />
-                
-
-                <Suspense fallback={null}>
-                    <Model url={modelPath} />
-                </Suspense>
-
+            <ambientLight intensity={1.5} />
+            <pointLight position={[10, 10, 10]} intensity={1} />
+            <spotLight position={[-10, 10, 0]} angle={0.15} penumbra={1} intensity={0.5} />      
+            <Bounds fit clip observe margin={1.2}> 
+                <Center>                
+                    <Suspense fallback={null}>
+                        <Model url={modelPath} />
+                    </Suspense>
+                </Center>
+            </Bounds>
             </Canvas>
         </div>
     );

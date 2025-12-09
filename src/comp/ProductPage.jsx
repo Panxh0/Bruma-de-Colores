@@ -3,66 +3,69 @@ import Navbar from './nav';
 import Visor3D from './Visor3D';
 import './ProductPage.css';
 
-const Product = {
-    id: 1,
-    name : 'Juguete de Batman Lego',
-    description: 'Figura de Batman',
-    price: 29990,
-    modelo: "Lego Batman 2024",
-    stock : 15,
-    Vendedor: "Lego",
-    model3DPath: '/models/lego_batman.glb',
-    model3DUrl: ''
-};
+const SIMULATED_PAYMENT_URL = "https://buy.stripe.com/test_eVqfZ92SS5YMeYS2g58ww00";
 
-const PaginaProducto = ({productData}) => {
+const Product = ({ productData }) => { 
 
-    //const modelUrlFromFirebase = productData.model3DUrl;
+  // Si productData está vacío, mostramos un mensaje de error (aunque el Loader ya lo maneja)
+    if (!productData) {
+        return <div>Error: Datos del producto no cargados.</div>;
+    } 
+  // Extraemos la URL del modelo 3D de los datos de Firebase
+    const modelUrlFromFirebase = productData.model3DUrl; 
 
-    const stockStatus = Product.stock > 0 ? 'Disponible' : 'Agotado';
-    const stockClass = Product.stock > 0 ? 'stock-available' : 'stock-unavailable';
+  // Lógica para verificar el stock (asumiendo que RTDB trae el campo 'stock')
+    const stockStatus = productData.stock > 0 ? 'Disponible' : 'Agotado';
+    const stockClass = productData.stock > 0 ? 'stock-available' : 'stock-unavailable';
 
+    const handleBuyClick = () => {
+    // 1. Normalmente, aquí contactarías a tu API para crear una orden.
+    console.log(`Iniciando checkout para ${productData.nombre} por $${productData.precio}`);
+    
+    // 2. Simulamos la respuesta de la API que devuelve la URL de la pasarela.
+    
+    // 3. Redirección final del navegador a la pasarela de pago.
+    // Usamos window.location.href para asegurar la redirección externa.
+    window.location.href = SIMULATED_PAYMENT_URL;
+    };
 
 
     return (
+    <div>
+        <Navbar />
+        <div className="product-page-container">
         
-        <div>
-            <Navbar/>
+        {/* Columna Izquierda: Visor 3D Interactivo (50% de ancho) */}
+        <div className="product-3d-viewer">
+            {modelUrlFromFirebase ? (
+                <Visor3D modelPath={modelUrlFromFirebase} /> 
+            ) : (
+                <p>Modelo 3D no disponible. Falta URL en RTDB.</p>
+            )}
+        </div>
 
-            <div className='product-page-container'>
+        <div className="product-details">
+            <h1>{productData.nombre || 'Nombre del Juguete'}</h1> 
+            <p className="price">${(productData.precio || 0).toFixed(2)}</p>
+    
+            <div className="info-block">
+                <p><strong>Modelo:</strong> {productData.modelo || 'N/A'}</p>
+                <p><strong>Marca Fabricante:</strong> {productData.fabricante || 'Desconocida'}</p>
+            </div>
 
-                <div className="product-3d-viewer">
-                    {Product && Product.model3DPath ? ( // <--- SOLO RENDERIZA SI LA RUTA EXISTE
-                    <Visor3D modelPath={Product.model3DPath} />
-                    ) : (
-                        <p>Cargando modelo...</p> // Muestra un mensaje mientras carga
-                    )}
-                </div>
-                
-                <div className='product-details'>
-                    <h1>{Product.name}</h1>
-                    <p className='price'>${Product.price.toFixed(0)}</p>
+            <div className="stock-info">
+                <span className={stockClass}>Stock: {stockStatus} ({productData.stock || 0} unidades)</span>
+            </div>
 
-                    <div className='info-block'>
-                        <p><strong>Modelo: </strong>{Product.modelo}</p>
-                        <p><strong>Vendedor: </strong>{Product.Vendedor}</p>
-                    </div>
-
-                    <div className='stock-info'>
-                        <span className={stockClass}>Stock: {stockStatus}</span>
-                    </div>
-
-                    <p className='description'>{Product.description}</p>
-
-                    <div className='action-buttons'>
-                        <button className='add-to-cart'>Agregar al Carrito</button>
-                        <button className='buy-now'>Comprar Ahora</button>
-                    </div>
-                </div>
-
+            <p className="description">{productData.description || 'No hay descripción disponible.'}</p>
+        
+            <div className="action-buttons">
+            <button className="btn-add-cart" onClick={handleBuyClick}>Comprar Ahora</button>
+            <button className="btn-wishlist">Añadir al Carrito</button>
             </div>
         </div>
-    )
-}
-
-export default PaginaProducto;
+        </div>
+    </div>
+    );
+};
+export default Product;

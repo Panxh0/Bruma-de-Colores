@@ -16,30 +16,35 @@ const ProductPageLoader = () => {
             // Referencia a la ubicación específica del juguete en RTDB
             const productRef = ref(rtdb, `juguetes/${id}`);
             
-            onValue(productRef, (snapshot) => {
+            const unsubscribe = onValue(productRef, (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
+                    // Si encuentra el producto, guarda el ID y los datos
                     setProduct({ id, ...data });
                 } else {
-                    setProduct(null);
+                    setProduct(null); // Producto no encontrado
                 }
                 setLoading(false);
-            }, {
-                // Función que se ejecuta si hay un error de reglas o red
-                onlyOnce: true // Lee solo una vez
+            }, (error) => {
+                // Manejo de errores de Firebase (ej: reglas de seguridad)
+                console.error("Error al cargar el producto desde RTDB:", error);
+                setProduct(null);
+                setLoading(false);
             });
+
+            return unsubscribe(); // Limpia el listener al desmontar
         }
     }, [id]);
 
     if (loading) {
-        return <div>Cargando detalles del juguete...</div>;
+        return <div className='product-loader'>Estamos cargando detalles del juguete...🫡</div>;
     }
     
     if (!product) {
-        return <div>Juguete no encontrado.</div>;
+        return <div className='product-error'>Oh no! No hemos encontrado el juguete que buscas 😭.</div>;
     }
 
-    // 🚨 PASO FINAL: Renderiza la página y pasa la URL de Storage
+
     return <ProductPage productData={product} />; 
 };
 

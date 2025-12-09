@@ -120,7 +120,6 @@ const HomePage = () => {
                 </motion.div>
             </motion.div>
 
-            {/* Sección del Listado de Juguetes */}
             <div className="product-list-section">
                 <h2>Explora Nuestros Juguetes</h2>
                 <div className="product-grid">
@@ -137,7 +136,6 @@ const HomePage = () => {
                     )}
                 </div>
 
-                {/* paginacion */}
                 {totalPages > 1 && (
                     <div className="pagination">
                         {pageNumbers.map(number => (

@@ -3,9 +3,19 @@ import './login.jsx';
 import './register.jsx';
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { useEffect } from 'react';
+import { use, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {useAuth} from '../comp/authContext';
 
 const Nav = () => {
+
+  const navigate = useNavigate()
+  const { currentUser, logout, isAuthenticated } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/homePage'); //redirecciona al home desde de cerrar sesion
+  }
 
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap");
@@ -23,15 +33,27 @@ const Nav = () => {
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="./homePage">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./product">Juguete 3D</a>
-          </li>
         
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        {isAuthenticated ? (
+            //si está autenticado, muestra el botón de Cerrar Sesión
+            <>
+                <span className="user-email">{currentUser?.email || 'Usuario'}</span>
+                <button className="nav-btn" onClick={handleLogout}>
+                    Cerrar Sesión
+                </button>
+            </>
+        ) : (
+            // Si NO está autenticado, muestra los botones de Login/Registro
+            <>
+                <button className="auth-button login" onClick={() => navigate('/login')}>
+                    Iniciar Sesión
+                </button>
+                <button className="auth-button register" onClick={() => navigate('/register')}>
+                    Crear una Cuenta
+                </button>
+            </>
+        )}
         </div>
       </div>
     </nav>
